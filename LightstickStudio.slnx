@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="LightstickStudio.Picker/LightstickStudio.Picker.csproj" />
+  <Project Path="LightstickStudio.WinUI/LightstickStudio.WinUI.csproj" />
+</Solution>

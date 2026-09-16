@@ -1,0 +1,10 @@
+{
+  "name": "Lightstick Studio Controller",
+  "version": "0.1.0",
+  "board": "Seeed XIAO nRF52840 Plus",
+  "firmware_identity": "JFKJ_LIGHTSTICK_TX_V1",
+  "format": "uf2",
+  "file": "firmware.uf2",
+  "sha256": "C4D2763243FD8CEF63B92EC06262C259B12A1832F2B58B9897F19CE70A28BB5F",
+  "update_scope": "application-only"
+}
