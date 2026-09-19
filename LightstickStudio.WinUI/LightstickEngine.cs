@@ -56,6 +56,9 @@ internal sealed class LightstickEngine
         var effectStartedAt = startedAt;
         var activeEffect = "steady";
         var lastStatusAt = 0.0;
+        var smoothedAudioBrightness = 0.0;
+        var hasSmoothedAudioBrightness = false;
+        var lastBrightnessAt = startedAt;
 
         try
         {
@@ -139,8 +142,27 @@ internal sealed class LightstickEngine
                         (rawAudioLevel - settings.AudioGate) /
                         Math.Max(1 - settings.AudioGate, 0.05));
                     var reactive = Math.Pow(gated, settings.BrightnessGamma);
-                    brightness = settings.Minimum +
+                    var targetBrightness = settings.Minimum +
                         (settings.Maximum - settings.Minimum) * reactive;
+                    var elapsed = Math.Clamp(now - lastBrightnessAt, 0.005, 0.2);
+                    if (!hasSmoothedAudioBrightness)
+                    {
+                        smoothedAudioBrightness = targetBrightness;
+                        hasSmoothedAudioBrightness = true;
+                    }
+                    else
+                    {
+                        // A short second-stage envelope hides quantized jumps between
+                        // RF frames while keeping beat attacks responsive.
+                        var referenceCoefficient = targetBrightness > smoothedAudioBrightness
+                            ? 0.45 : 0.14;
+                        var coefficient = 1 - Math.Pow(1 - referenceCoefficient,
+                            elapsed / 0.040);
+                        smoothedAudioBrightness +=
+                            (targetBrightness - smoothedAudioBrightness) * coefficient;
+                    }
+                    lastBrightnessAt = now;
+                    brightness = smoothedAudioBrightness;
                 }
                 else
                 {
@@ -149,6 +171,8 @@ internal sealed class LightstickEngine
                     audio?.Dispose();
                     audio = null;
                     currentAudioLevel = 0;
+                    hasSmoothedAudioBrightness = false;
+                    lastBrightnessAt = now;
                 }
 
                 var scaledElapsed = (now - effectStartedAt) *

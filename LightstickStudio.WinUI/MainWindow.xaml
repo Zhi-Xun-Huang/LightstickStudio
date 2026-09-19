@@ -192,9 +192,9 @@
                                     <TextBlock Text="靜音門檻" />
                                     <Slider x:Name="AudioGateSlider" Minimum="0" Maximum="0.5" Value="0.08" StepFrequency="0.01" ValueChanged="Slider_ValueChanged" />
                                 </StackPanel>
-                                <StackPanel ToolTipService.ToolTip="控制強拍與弱拍的亮度差。大於 1 會壓低弱音、突出節拍；小於 1 會讓燈光較持續。">
+                                <StackPanel ToolTipService.ToolTip="控制強拍與弱拍的亮度差。大於 1 會壓低弱音、突出節拍；接近 4 時只保留很強的節拍，小於 1 會讓燈光較持續。">
                                     <TextBlock Text="節拍對比" />
-                                    <Slider x:Name="GammaSlider" Minimum="0.5" Maximum="2.5" Value="1.35" StepFrequency="0.05" ValueChanged="Slider_ValueChanged" />
+                                    <Slider x:Name="GammaSlider" Minimum="0.5" Maximum="4" Value="1.35" StepFrequency="0.05" ValueChanged="Slider_ValueChanged" />
                                 </StackPanel>
                                 <StackPanel ToolTipService.ToolTip="沒有聲音時仍保留的基礎亮度。設為 0 時，靜音便會完全熄燈。">
                                     <TextBlock Text="最低亮度" />
